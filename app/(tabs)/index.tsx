@@ -1,98 +1,290 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import { ImageBackground, Pressable, StyleSheet, View } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+
+const COLORS = [
+  '#F43F5E',
+  '#F97316',
+  '#EAB308',
+  '#22C55E',
+  '#2563EB',
+  '#A855F7',
+];
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const router = useRouter();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
+  return (
+    <ThemedView style={styles.container}>
+      <View style={styles.heroCard}>
+        <View style={styles.heroBadge}>
+          <ThemedText type="defaultSemiBold" style={styles.badgeText}>
+            Tebak Warna Yuk!
+          </ThemedText>
+        </View>
+        <ThemedText type="title" style={styles.title}>
+          Halo, Teman Warna!
         </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
+        <ThemedText type="default" style={styles.heroText}>
+          Yuk belajar warna dengan cara seru, cepat, dan mudah dipahami anak
+          kecil.
         </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        <View style={styles.swatchRow}>
+          {COLORS.map((color) => (
+            <View
+              key={color}
+              style={[styles.swatch, { backgroundColor: color }]}
+            />
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.actionCard}>
+        <ThemedText type="subtitle" style={styles.sectionTitle}>
+          Pilih Aktivitas
+        </ThemedText>
+        <Pressable
+          style={styles.primaryButton}
+          onPress={() => router.push('/game')}
+        >
+          <ThemedText type="defaultSemiBold" style={styles.primaryButtonText}>
+            Main Tebak Warna
+          </ThemedText>
+        </Pressable>
+        <Pressable
+          style={styles.secondaryButton}
+          onPress={() => router.push('/explore')}
+        >
+          <ThemedText type="defaultSemiBold" style={styles.secondaryButtonText}>
+            Pelajari Warna
+          </ThemedText>
+        </Pressable>
+      </View>
+
+      <ImageBackground
+        source={{
+          uri: 'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=400&fit=crop&crop=center',
+        }}
+        style={styles.banner}
+        resizeMode="cover"
+        borderRadius={20}
+      >
+        <View style={styles.bannerOverlay}>
+          <View style={styles.bannerContent}>
+            <ThemedText type="title" style={styles.bannerTitle}>
+              Yuk Belajar Warna!
+            </ThemedText>
+            <ThemedText type="default" style={styles.bannerSubtitle}>
+              Bersama teman-teman kecil
+            </ThemedText>
+          </View>
+          <View style={styles.bannerDecorations}>
+            <View
+              style={[
+                styles.decorationDot,
+                { backgroundColor: '#F43F5E', top: 20, left: 20 },
+              ]}
+            />
+            <View
+              style={[
+                styles.decorationDot,
+                { backgroundColor: '#EAB308', top: 40, right: 40 },
+              ]}
+            />
+            <View
+              style={[
+                styles.decorationDot,
+                { backgroundColor: '#22C55E', bottom: 30, left: 30 },
+              ]}
+            />
+            <View
+              style={[
+                styles.decorationDot,
+                { backgroundColor: '#2563EB', bottom: 20, right: 20 },
+              ]}
+            />
+            <View
+              style={[
+                styles.decorationDot,
+                { backgroundColor: '#A855F7', top: 60, left: 60 },
+              ]}
+            />
+          </View>
+        </View>
+      </ImageBackground>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    padding: 20,
+    gap: 20,
+    backgroundColor: '#090D16',
+  },
+  heroCard: {
+    backgroundColor: '#111827',
+    borderRadius: 30,
+    padding: 26,
+    borderWidth: 1,
+    borderColor: '#1E293B',
+    gap: 18,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  heroBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#1D4ED8',
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+  },
+  badgeText: {
+    color: '#EFF6FF',
+    fontSize: 12,
+  },
+  title: {
+    color: '#F8FAFC',
+    lineHeight: 44,
+  },
+  heroText: {
+    color: '#CBD5E1',
+    lineHeight: 24,
+  },
+  swatchRow: {
     flexDirection: 'row',
+    gap: 10,
+    marginTop: 8,
+  },
+  swatch: {
+    width: 42,
+    height: 42,
+    borderRadius: 14,
+    borderWidth: 2,
+    borderColor: '#0F172A',
+  },
+  actionCard: {
+    backgroundColor: '#111827',
+    borderRadius: 26,
+    padding: 22,
+    borderWidth: 1,
+    borderColor: '#1E293B',
+    gap: 14,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  sectionTitle: {
+    color: '#E2E8F0',
+  },
+  primaryButton: {
+    borderRadius: 24,
+    backgroundColor: '#2563EB',
+    paddingVertical: 18,
+    alignItems: 'center',
+  },
+  primaryButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+  },
+  secondaryButton: {
+    borderRadius: 24,
+    backgroundColor: '#0F172A',
+    borderWidth: 1,
+    borderColor: '#2563EB',
+    paddingVertical: 18,
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    color: '#E2E8F0',
+    fontSize: 16,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    gap: 14,
+  },
+  infoCard: {
+    flex: 1,
+    backgroundColor: '#111827',
+    borderRadius: 24,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: '#1E293B',
+  },
+  infoText: {
+    color: '#94A3B8',
+    marginTop: 8,
+    lineHeight: 22,
+  },
+  banner: {
+    width: '100%',
+    height: 200,
+    borderRadius: 24,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  bannerOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bannerContent: {
     alignItems: 'center',
     gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  bannerTitle: {
+    color: '#FFFFFF',
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  bannerSubtitle: {
+    color: '#F8FAFC',
+    fontSize: 16,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  bannerDecorations: {
     position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+  decorationDot: {
+    position: 'absolute',
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
 });

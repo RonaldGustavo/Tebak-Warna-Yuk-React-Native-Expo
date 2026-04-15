@@ -8,10 +8,16 @@
     "scheme": "tebakwarnaapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#E0F2FE"
+    },
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.tebakwarna.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -43,6 +49,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "f07bedc3-d0e9-47e9-8842-21e191f1f38e"
+      }
     }
   }
 }

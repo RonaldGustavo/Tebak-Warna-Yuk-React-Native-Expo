@@ -1,112 +1,145 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { Collapsible } from '@/components/ui/collapsible';
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
 
-export default function TabTwoScreen() {
+const COLORS = [
+  { name: 'Merah', color: '#F43F5E' },
+  { name: 'Kuning', color: '#EAB308' },
+  { name: 'Hijau', color: '#22C55E' },
+  { name: 'Biru', color: '#2563EB' },
+  { name: 'Ungu', color: '#A855F7' },
+  { name: 'Pink', color: '#EC4899' },
+  { name: 'Orange', color: '#F97316' },
+  { name: 'Coklat', color: '#92400E' },
+];
+
+export default function ExploreScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image
-          source={require('@/assets/images/react-logo.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
+    <ThemedView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.header}>
+          <View style={styles.headerIcon}>
+            <IconSymbol size={32} name="sparkles" color="#F8FAFC" />
+          </View>
+          <ThemedText type="title" style={styles.title}>
+            Belajar Warna
+          </ThemedText>
+          <ThemedText type="default" style={styles.description}>
+            Pelajari nama warna, praktikkan pilihan, dan jadi juara bersama
+            keluarga.
+          </ThemedText>
+        </View>
+
+        {COLORS.map((color) => (
+          <View key={color.name} style={styles.colorCard}>
+            <View
+              style={[styles.colorSwatch, { backgroundColor: color.color }]}
+            />
+            <ThemedText type="subtitle" style={styles.colorName}>
+              {color.name}
             </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+          </View>
+        ))}
+      </ScrollView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: '#090D16',
   },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+  content: {
+    padding: 20,
+    gap: 16,
+  },
+  header: {
+    backgroundColor: '#111827',
+    borderRadius: 28,
+    padding: 24,
+    gap: 14,
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  headerIcon: {
+    backgroundColor: '#1D2939',
+    width: 60,
+    height: 60,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    marginTop: 4,
+    color: '#F8FAFC',
+  },
+  description: {
+    lineHeight: 24,
+    color: '#CBD5E1',
+  },
+  card: {
+    backgroundColor: '#111827',
+    borderRadius: 24,
+    padding: 20,
+    gap: 10,
+    borderLeftWidth: 4,
+    borderColor: '#334155',
+  },
+  accentDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginBottom: 10,
+  },
+  cardTitle: {
+    color: '#F8FAFC',
+    marginBottom: 5,
+  },
+  cardText: {
+    color: '#CBD5E1',
+    lineHeight: 22,
+  },
+  colorCard: {
+    backgroundColor: '#111827',
+    borderRadius: 24,
+    padding: 20,
+    alignItems: 'center',
+    gap: 16,
+    borderWidth: 1,
+    borderColor: '#334155',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  colorSwatch: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 4,
+    borderColor: '#0F172A',
+  },
+  colorName: {
+    color: '#F8FAFC',
+    fontSize: 24,
+    textAlign: 'center',
+  },
+  footerCard: {
+    backgroundColor: '#111827',
+    borderRadius: 24,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: '#334155',
+    gap: 10,
+  },
+  sectionTitle: {
+    color: '#F8FAFC',
   },
 });
