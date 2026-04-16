@@ -22,6 +22,7 @@ const MAPPING = {
   'gamecontroller.fill': 'games',
   sparkles: 'star',
   'questionmark.circle': 'help-outline',
+  'heart.fill': 'favorite',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
 } as IconMapping;

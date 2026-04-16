@@ -44,6 +44,7 @@ export default function GameScreen() {
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState('');
   const [status, setStatus] = useState<'playing' | 'won' | 'lost'>('playing');
+  const [lives, setLives] = useState(3);
   const [hintUsed, setHintUsed] = useState(false);
   const [shakeAnim] = useState(new Animated.Value(0));
   const [scaleAnim] = useState(new Animated.Value(1));
@@ -113,10 +114,15 @@ export default function GameScreen() {
     if (status === 'won') {
       return '🎉 Hebat! Jawabanmu tepat. Lanjut ke soal berikutnya...';
     }
+    if (selected && selected !== round.target.name) {
+      return lives > 0
+        ? `❌ Salah! Nyawa tersisa ${lives}.`
+        : `😅 Game over! Jawaban benar: ${round.target.name}`;
+    }
     return hintUsed
       ? '🎯 Hint aktif: satu pilihan dihapus, tinggal dua opsi.'
       : '👆 Pilih nama warna yang benar dari pilihan di bawah.';
-  }, [hintUsed, round.target.name, status]);
+  }, [hintUsed, lives, round.target.name, selected, status]);
 
   useEffect(() => {
     if (status === 'won') {
@@ -140,8 +146,14 @@ export default function GameScreen() {
       setStatus('won');
       animateCorrect();
     } else {
-      setStatus('lost');
       animateWrong();
+      setLives((current) => {
+        if (current <= 1) {
+          setStatus('lost');
+          return 0;
+        }
+        return current - 1;
+      });
     }
   };
 
@@ -156,11 +168,6 @@ export default function GameScreen() {
     const reducedOptions = [round.target, wrongOptions[0]];
     return shuffle(reducedOptions);
   }, [hintUsed, round.options, round.target]);
-
-  const hintText = useMemo(
-    () => `Petunjuk: warna dimulai dengan huruf ${round.target.name[0]}.`,
-    [round.target.name],
-  );
 
   useEffect(() => {
     if (hintUsed) {
@@ -207,6 +214,7 @@ export default function GameScreen() {
     setScore(0);
     setSelected('');
     setStatus('playing');
+    setLives(3);
     setHintUsed(false);
   };
 
@@ -238,9 +246,16 @@ export default function GameScreen() {
                 {score}
               </ThemedText>
             </View>
-            <ThemedText type="defaultSemiBold" style={styles.roundLabel}>
-              {status === 'lost' ? 'Berhenti' : 'Sedang Berjalan'}
-            </ThemedText>
+            <View style={styles.livesRow}>
+              {[...Array(3)].map((_, index) => (
+                <IconSymbol
+                  key={index}
+                  name="heart.fill"
+                  size={20}
+                  color={index < lives ? '#EF4444' : '#4B5563'}
+                />
+              ))}
+            </View>
           </View>
           <View style={styles.questionBox}>
             <ThemedText type="defaultSemiBold" style={styles.questionLabel}>
@@ -271,14 +286,20 @@ export default function GameScreen() {
               </ThemedText>
             </Pressable>
             {hintUsed && (
-              <ThemedText type="default" style={styles.hintText}>
-                {hintText}
-              </ThemedText>
+              <View style={styles.hintColorWrapper}>
+                <View
+                  style={[
+                    styles.hintColorDot,
+                    { backgroundColor: round.target.hex },
+                  ]}
+                />
+              </View>
             )}
           </View>
           <View style={styles.optionGrid}>
             {displayedOptions.map((option) => {
               const isSelected = selected === option.name;
+              const isCorrect = option.name === round.target.name;
               return (
                 <Animated.View
                   key={option.name}
@@ -288,9 +309,9 @@ export default function GameScreen() {
                       backgroundColor: option.hex,
                       opacity: status !== 'playing' && !isSelected ? 0.4 : 1,
                       borderColor: isSelected
-                        ? status === 'lost'
-                          ? '#F97316'
-                          : '#22C55E'
+                        ? isCorrect
+                          ? '#22C55E'
+                          : '#EF4444'
                         : 'rgba(255,255,255,0.16)',
                       transform: [
                         {
@@ -461,6 +482,11 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
   },
+  livesRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   scoreLabel: {
     color: '#93C5FD',
     fontSize: 12,
@@ -556,6 +582,17 @@ const styles = StyleSheet.create({
   },
   hintIcon: {
     marginTop: 1,
+  },
+  hintColorWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  hintColorDot: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.24)',
   },
   hintText: {
     flex: 1,
