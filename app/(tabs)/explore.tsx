@@ -2,7 +2,6 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
 
 const COLORS = [
   { name: 'Merah', color: '#F43F5E' },
@@ -20,9 +19,6 @@ export default function ExploreScreen() {
     <ThemedView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
-          <View style={styles.headerIcon}>
-            <IconSymbol size={32} name="sparkles" color="#F8FAFC" />
-          </View>
           <ThemedText type="title" style={styles.title}>
             Belajar Warna
           </ThemedText>

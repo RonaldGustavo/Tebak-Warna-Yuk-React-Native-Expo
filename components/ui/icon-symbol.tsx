@@ -21,6 +21,7 @@ const MAPPING = {
   'paperplane.fill': 'send',
   'gamecontroller.fill': 'games',
   sparkles: 'star',
+  'questionmark.circle': 'help-outline',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
 } as IconMapping;

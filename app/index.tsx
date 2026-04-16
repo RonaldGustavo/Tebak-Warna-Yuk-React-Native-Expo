@@ -1,25 +1,64 @@
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { useEffect, useMemo, useRef } from 'react';
+import { Animated, StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
 export default function SplashScreen() {
   const router = useRouter();
+  const logoScale = useRef(new Animated.Value(0.8)).current;
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const animatedLogoStyle = useMemo(
+    () => ({
+      transform: [{ scale: logoScale }],
+      opacity: fadeAnim,
+    }),
+    [fadeAnim, logoScale],
+  );
 
   useEffect(() => {
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(logoScale, {
+          toValue: 1,
+          duration: 700,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 700,
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.timing(logoScale, {
+        toValue: 1.05,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(logoScale, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
     const timeout = setTimeout(() => router.replace('/(tabs)'), 2200);
-    return () => clearTimeout(timeout);
-  }, [router]);
+    return () => {
+      clearTimeout(timeout);
+      fadeAnim.stopAnimation();
+      logoScale.stopAnimation();
+    };
+  }, [fadeAnim, logoScale, router]);
 
   return (
     <ThemedView style={styles.container}>
-      <View style={styles.box}>
-        <Image
+      <Animated.View style={[styles.box, { opacity: fadeAnim }]}>
+        <Animated.Image
           source={require('@/assets/images/splash-icon.png')}
-          style={styles.logo}
+          style={[styles.logo, animatedLogoStyle]}
         />
         <ThemedText type="title" style={styles.title}>
           Tebak Warna
@@ -27,7 +66,7 @@ export default function SplashScreen() {
         <ThemedText type="default" style={styles.subtitle}>
           Aplikasi edukasi warna untuk anak kecil dan keluarga.
         </ThemedText>
-      </View>
+      </Animated.View>
       <ThemedText type="default" style={styles.footer}>
         Siap bermain dan belajar warna dengan ceria.
       </ThemedText>
@@ -46,21 +85,38 @@ const styles = StyleSheet.create({
   },
   box: {
     alignItems: 'center',
-    gap: 14,
+    gap: 18,
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: '#0F172A',
+    borderRadius: 32,
+    padding: 28,
+    borderWidth: 1,
+    borderColor: '#1E293B',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.18,
+    shadowRadius: 18,
+    elevation: 10,
   },
   logo: {
     width: 140,
     height: 140,
-    borderRadius: 22,
+    borderRadius: 28,
+    marginBottom: 8,
   },
   title: {
     textAlign: 'center',
     color: '#F8FAFC',
+    fontSize: 28,
+    lineHeight: 36,
   },
   subtitle: {
     textAlign: 'center',
-    maxWidth: 300,
+    maxWidth: 320,
     color: '#CBD5E1',
+    fontSize: 16,
+    lineHeight: 24,
   },
   footer: {
     marginTop: 32,

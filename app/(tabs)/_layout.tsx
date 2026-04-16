@@ -18,24 +18,20 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: '#090D16',
           borderTopColor: '#111827',
-          height: 80,
-          paddingBottom: 12,
-          paddingTop: 10,
-          position: 'absolute',
-          bottom: insets.bottom + 10,
-          left: 20,
-          right: 20,
-          borderRadius: 25,
+          borderTopWidth: 1,
+          height: 70,
+          paddingTop: 8,
+          paddingBottom: insets.bottom + 10,
+          position: 'relative',
+          borderRadius: 0,
           shadowColor: '#000',
           shadowOffset: {
             width: 0,
-            height: 4,
+            height: 2,
           },
-          shadowOpacity: 0.3,
-          shadowRadius: 8,
-          elevation: 8,
-          borderWidth: 1,
-          borderColor: '#1E293B',
+          shadowOpacity: 0.12,
+          shadowRadius: 6,
+          elevation: 3,
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -44,7 +40,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         contentStyle: {
-          paddingBottom: 100 + insets.bottom, // Space for floating tab bar
+          paddingBottom: 90 + insets.bottom,
         },
       }}
     >

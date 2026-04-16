@@ -4,14 +4,14 @@
     "slug": "TebakWarnaApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icons/icon.png",
     "scheme": "tebakwarnaapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#E0F2FE"
+      "backgroundColor": "#090D16"
     },
     "ios": {
       "supportsTablet": true
@@ -39,9 +39,9 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#090D16",
           "dark": {
-            "backgroundColor": "#000000"
+            "backgroundColor": "#090D16"
           }
         }
       ]
