@@ -2,7 +2,7 @@
   "expo": {
     "name": "TebakWarnaApp",
     "slug": "TebakWarnaApp",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icons/icon.png",
     "scheme": "tebakwarnaapp",
@@ -18,6 +18,7 @@
     },
     "android": {
       "package": "com.tebakwarna.app",
+      "versionCode": 2,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
